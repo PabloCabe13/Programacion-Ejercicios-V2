@@ -18,7 +18,7 @@ public class App {
 		
 		try (Connection conn = DriverManager.getConnection(URL, USUARIO, PASSWORD))
 			{
-				System.out.println("Conectado con exito");
+			System.out.println("Conectado con exito");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM " + tabla);
 			ResultSetMetaData meta = rs.getMetaData();
