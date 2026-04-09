@@ -25,7 +25,7 @@ public class Libreria {
 		System.out.println("---- LIBROS PARA lA CATEGORÍA " + cat.toString());
 		for(Libro l1 : libreria) {
 			if(l1.getCategoria().equals(cat)) {
-				System.out.println("-" + l1.getTitulo());
+				System.out.println("-" + l1.toString());
 			}
 		}
 	}
@@ -33,7 +33,7 @@ public class Libreria {
 	public void mostrarLibros() {
 		System.out.println("---- LIBROS DE TODA LA BIBLIOTECA ---");
 		for(Libro l1 : libreria) {
-			System.out.println(" - " + l1.getTitulo() );
+			System.out.println(" - " + l1.toString() );
 		}
 	}
 }

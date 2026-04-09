@@ -29,6 +29,13 @@ public class Libro {
 	public Categoria getCategoria() {
 		return categoria;
 	}
+
+	@Override
+	public String toString() {
+		return "Libro " + titulo + ", Autor: " + autor + ", Año de Publicacion: " + anio_publicacion
+				+ ", Categoria: " + categoria;
+	}
+	
 	
 	
 	
