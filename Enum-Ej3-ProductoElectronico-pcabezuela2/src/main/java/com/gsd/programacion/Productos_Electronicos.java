@@ -41,7 +41,23 @@ public class Productos_Electronicos {
 		return false;
 	}
 	
-	
-	
+	public void mostrarProdTipo (String tipo) {
+		boolean existeTipo = false;
+		TipoProducto tipoProd = TipoProducto.valueOf(tipo.toUpperCase().trim());
+		System.out.println("---- PRODUCTOS DE TIPO " + tipoProd.name() + " -----");
+		for(TipoProducto pr : inventario.keySet()) {
+			if(tipoProd.equals(pr)) {
+				existeTipo = true;
+				for(Producto prod : inventario.get(pr)) {
+					System.out.println("- " + prod.toString() + "\n-----------------");
+				}
+				break;
+			}
+		}
+		if(!existeTipo) {
+			System.err.println("No hay o no existe ese tipo de producto<");
+		}
+		
+	}
 	
 }
