@@ -43,24 +43,35 @@ public class App {
         	case 2:
         		System.out.println("Dime el tipo de producto que quieres ver: ");
         		String tipoProd = teclado.next().toUpperCase().trim();
-        		Tienda.mostrarProdTipo(tipoProd);
+        		try {
+        			TipoProducto prodBuscado = TipoProducto.valueOf(tipoProd);
+        			Tienda.mostrarProdTipo(tipoProd);
+        		}catch(IllegalArgumentException e) {
+        			System.err.println("Ese tipo no existe");
+        		}
+        		
         		break;
         	case 3:
-        		
+        		Tienda.mostrarTodos();;
         		break;
         	case 4:
-        		
+        		 System.out.println(Tienda.calcularPrecioTotalInventario() + "$"); 
         		break;
         	case 5: 
-        		
+        		Tienda.mostrarTodos();
+        		System.out.println("Dime el nombre del producto a añadir al carrito");
+        		teclado.nextLine();
+        		String nombreProducto = teclado.nextLine();
+        		Tienda.aniadirCarrito(nombreProducto);
         		break;
         	case 6:
-        		
+        		Tienda.mostrarCarrito();
         		break;
         	case 7:
-        		
+        		Tienda.finalizarCompra();
         		break;
         	case 8:
+        		System.err.println("Chao Pescao");
         		return;
         	}
         	

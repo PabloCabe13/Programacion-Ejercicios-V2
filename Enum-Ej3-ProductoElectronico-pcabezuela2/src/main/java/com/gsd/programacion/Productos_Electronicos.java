@@ -49,7 +49,7 @@ public class Productos_Electronicos {
 			if(tipoProd.equals(pr)) {
 				existeTipo = true;
 				for(Producto prod : inventario.get(pr)) {
-					System.out.println("- " + prod.toString() + "\n-----------------");
+					System.out.println("- " + prod.toString());
 				}
 				break;
 			}
@@ -60,4 +60,58 @@ public class Productos_Electronicos {
 		
 	}
 	
+	public void mostrarTodos() {
+		System.err.println("----- INVENTARIO EN LA TIENDA ------");
+		for(TipoProducto tipoProd : inventario.keySet()) {
+			System.out.println("----- " + tipoProd.name() + " -----");
+			List <Producto> productos = inventario.get(tipoProd);
+			for(Producto prod : productos){
+				System.out.println("- " + prod.toString()); 
+			}
+		}
+	}
+	
+	public double calcularPrecioTotalInventario() {
+		double precioTotal = 0;
+		for(TipoProducto tipoProd : inventario.keySet()) {
+			List <Producto> productos = inventario.get(tipoProd);
+			for(Producto prod : productos){
+				precioTotal += prod.getPrecio();
+			}
+		}
+		System.out.print("El precio total es de: ");
+		return precioTotal;
+	}
+	
+	public boolean aniadirCarrito(String prod) {
+		for(TipoProducto tipoProd : inventario.keySet()) {
+			List <Producto> productos = inventario.get(tipoProd);
+			for(Producto producto : productos){
+				if(producto.getNombre().equalsIgnoreCase(prod)) {
+					carrito.add(producto);
+					inventario.get(tipoProd).remove(producto);
+					System.out.println("Producto " + producto.getNombre() + " añadido al carrito");
+					return true;
+				}
+			}
+		}
+		System.err.println("No existe ese producto");
+		return false;
+	}
+	
+	public void mostrarCarrito() {
+		double precioTotalCarrito = 0;
+		System.out.println("----- CARRITO -----");
+		for(Producto prod : carrito){
+			System.out.println("- " + prod.toString());
+			precioTotalCarrito += prod.getPrecio();
+		}
+		System.out.println("Precio Actual del carrito: " + precioTotalCarrito + "$");
+	}
+	
+	public boolean finalizarCompra() {
+		carrito.removeAll(carrito);
+		System.out.println("Compra Finalizada");
+		return true;
+	}
 }
