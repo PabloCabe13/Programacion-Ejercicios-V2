@@ -57,18 +57,17 @@ public class Mundo {
 		}
 	}
 	
-	public double mostrarPorcentajePoblacionDePais(String nombrePais) {
+	public void mostrarPorcentajePoblacionDePais(String nombrePais) {
 		nombrePais.trim();
-		double porcentajePoblacion = 0;
 		for(Pais p : paises) {
 			if(p.getNombre().equalsIgnoreCase(nombrePais)) {
 				Continentes cont = p.getContinente();
-				porcentajePoblacion = p.getPoblacion() * cont.getPoblacionContinente() / 100;
-				System.out.print("El porcentaje de su poblacion es de: ");
-				return porcentajePoblacion;
+				 double porcentajePoblacion = (double) p.getPoblacion() / cont.getPoblacionContinente() * 100;
+				System.out.println("El porcentaje de su poblacion es de: " + porcentajePoblacion + "%");
+				return;
 			}
 		}
 		System.err.println("El país no existe");
-		return 0;
+		return;
 	}
 }

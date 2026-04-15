@@ -68,7 +68,7 @@ public class App {
         		System.out.println("Dime el nombre de un país");
         		teclado.nextLine();
         		String nombPais = teclado.nextLine();
-        		System.out.println(mundo.mostrarPorcentajePoblacionDePais(nombPais));
+        		mundo.mostrarPorcentajePoblacionDePais(nombPais);
         		break;
         	case 7:
         		System.out.println("Chao Pescao");
