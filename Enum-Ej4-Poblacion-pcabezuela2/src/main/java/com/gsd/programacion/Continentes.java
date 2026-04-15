@@ -13,6 +13,8 @@ public enum Continentes {
 	private Continentes(int poblacionContinente) {
 		this.poblacionContinente = poblacionContinente;
 	}
-	
-	ñ
+
+	public int getPoblacionContinente() {
+		return poblacionContinente;
+	}
 }
