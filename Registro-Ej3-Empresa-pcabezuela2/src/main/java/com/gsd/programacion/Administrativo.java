@@ -32,8 +32,11 @@ public class Administrativo extends EmpleadoBase{
 
 	@Override
 	public String toString() {
-		return super().toString() +"Administrativo [controlDeVersiones=" + controlDeVersiones + ", documentacion=" + documentacion + "]";
+		// TODO Auto-generated method stub
+		return super.toString() + " - ADMISTRATIVO - Control de versiones: " + controlDeVersiones + ", Documentacion: " + documentacion;
 	}
+
+	
 	
 	
 	
