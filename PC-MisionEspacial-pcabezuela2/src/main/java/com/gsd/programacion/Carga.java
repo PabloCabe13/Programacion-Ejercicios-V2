@@ -2,11 +2,24 @@ package com.gsd.programacion;
 
 import java.util.stream.Stream;
 
-public class Exploradora extends Nave {
+public class Carga extends Nave {
+	private double capacidadCarga;
 
-	public Exploradora(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual) 
-	throws NaveInvalidaException{	
+	public Carga(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual, double capacidadCarga)
+	throws NaveInvalidaException {
 		super(nombre, combustible, nivelEnergia, ubicacionActual);
+		setCapacidadCarga(capacidadCarga);
+	}
+	
+	public double getCapacidadCarga() {
+		return capacidadCarga;
+	}
+
+	public void setCapacidadCarga(double capacidadCarga) {
+		if(capacidadCarga > 500) {
+			System.err.println("¡AVISO! La capacidad de carga es mayor de 500! El consumo se multiplica x3 \n RIESGO DE DERIVA");
+		}
+		this.capacidadCarga = capacidadCarga;
 	}
 
 	@Override
@@ -16,12 +29,13 @@ public class Exploradora extends Nave {
 			    ", Combustible: " + n.getCombustible() + 
 			    ", Nivel de energía: " + n.getNivelEnergia() + 
 			    ", Ubicacion Actual: " + n.getUbicacionActual() + 
-			    ", Riesgo Ambiental -50%"
+			    ", Capacidad de Carga: " + n.getCapacidadCarga()
 			));
 	}
-	
+
 	public boolean tieneAutonomia(double distancia){
-		double consumo = (distancia * 0.5) * 0.7;
+		double consumo = (distancia * 1.2) * 2.5;
+		if(getCapacidadCarga() > 500) consumo *= 3;
 		if(consumo > getCombustible()) {
 			return false;
 		}

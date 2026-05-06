@@ -8,8 +8,8 @@ public abstract class Nave implements Navegable{
 	 public Nave(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual) 
 	 throws NaveInvalidaException{
 		this.nombre = nombre;
-		this.combustible = combustible;
-		this.nivelEnergia = nivelEnergia;
+		setCombustible(combustible);
+		setNivelEnergia(nivelEnergia);
 		this.UbicacionActual = ubicacionActual;
 	 }
 	 
@@ -40,11 +40,17 @@ public abstract class Nave implements Navegable{
 		this.nombre = nombre;
 	 }
 
-	 public void setCombustible(double combustible) {
+	 public void setCombustible(double combustible) throws NaveInvalidaException {
+		 if(combustible < 0 || combustible > 100) {
+			 throw new NaveInvalidaException("Combustible debe ser entre 0 y 100");
+		 }
 		 this.combustible = combustible;
 	 }
 
-	 public void setNivelEnergia(int nivelEnergia) {
+	 public void setNivelEnergia(int nivelEnergia) throws NaveInvalidaException  {
+		 if(nivelEnergia < 1 || nivelEnergia > 5) {
+			 throw new NaveInvalidaException("Nivel de energía debe ser entre 1 y 5");
+		 }
 		 this.nivelEnergia = nivelEnergia;
 	 }
 
@@ -66,6 +72,7 @@ public abstract class Nave implements Navegable{
 		if(!tieneAutonomia) {
 			throw new CombustibleInsuficienteException("Combustible Insuficiente");
 		}
+		setUbicacionActual(destino); 
 	 }
 	 
 	 
