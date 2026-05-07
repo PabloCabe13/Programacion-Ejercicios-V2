@@ -6,7 +6,7 @@ public class Carga extends Nave {
 	private double capacidadCarga;
 
 	public Carga(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual, double capacidadCarga)
-	throws NaveInvalidaException {
+	throws EstadisticaInvalidaException {
 		super(nombre, combustible, nivelEnergia, ubicacionActual);
 		setCapacidadCarga(capacidadCarga);
 	}
@@ -17,18 +17,19 @@ public class Carga extends Nave {
 
 	public void setCapacidadCarga(double capacidadCarga) {
 		if(capacidadCarga > 500) {
-			System.err.println("¡AVISO! La capacidad de carga es mayor de 500! El consumo se multiplica x3 \n RIESGO DE DERIVA");
+			System.err.println("---- ¡AVISO! La capacidad de carga de la carga " + getNombre()+ " es mayor de 500! El consumo se multiplica x3 RIESGO DE DERIVA ----");
 		}
 		this.capacidadCarga = capacidadCarga;
 	}
 
 	@Override
 	public void mostrarReporte() {
+		
 		Stream.of(this).forEach(n -> System.out.println(
 			    "- Nombre: " + n.getNombre() + 
 			    ", Combustible: " + n.getCombustible() + 
 			    ", Nivel de energía: " + n.getNivelEnergia() + 
-			    ", Ubicacion Actual: " + n.getUbicacionActual() + 
+			    ", Ubicacion Actual: " +  n.getUbicacionActual().planeta() + 
 			    ", Capacidad de Carga: " + n.getCapacidadCarga()
 			));
 	}
@@ -42,12 +43,12 @@ public class Carga extends Nave {
 		return true;
 	}
 	
-	public void repostar() throws NaveInvalidaException {
+	public void repostar() throws EstadisticaInvalidaException, FueraDeSectorException{
 		if(getUbicacionActual() == null) {
 			setCombustible(100);
 			System.out.println("Combustible repostado");
 		}else {
-			System.err.println("La nave " + getNombre() + ", no está en la base" );
+			throw new FueraDeSectorException("La nave " + getNombre() + ", no está en la base" );
 		}
 	}
 }

@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public class Exploradora extends Nave {
 
 	public Exploradora(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual) 
-	throws NaveInvalidaException{	
+	throws EstadisticaInvalidaException{	
 		super(nombre, combustible, nivelEnergia, ubicacionActual);
 	}
 
@@ -15,7 +15,7 @@ public class Exploradora extends Nave {
 			    "- Nombre: " + n.getNombre() + 
 			    ", Combustible: " + n.getCombustible() + 
 			    ", Nivel de energía: " + n.getNivelEnergia() + 
-			    ", Ubicacion Actual: " + n.getUbicacionActual() + 
+			    ", Ubicacion Actual: " + n.getUbicacionActual().planeta() + 
 			    ", Riesgo Ambiental -50%"
 			));
 	}
@@ -28,12 +28,12 @@ public class Exploradora extends Nave {
 		return true;
 	}
 	
-	public void repostar() throws NaveInvalidaException {
+	public void repostar() throws EstadisticaInvalidaException, FueraDeSectorException{
 		if(getUbicacionActual() == null) {
 			setCombustible(100);
 			System.out.println("Combustible repostado");
 		}else {
-			System.err.println("La nave " + getNombre() + ", no está en la base" );
+			throw new FueraDeSectorException("La nave " + getNombre() + ", no está en la base" );
 		}
 	}
 }

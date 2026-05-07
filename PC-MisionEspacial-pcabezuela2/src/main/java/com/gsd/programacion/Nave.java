@@ -6,11 +6,11 @@ public abstract class Nave implements Navegable{
 	 Destino UbicacionActual;
 	 
 	 public Nave(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual) 
-	 throws NaveInvalidaException{
+	 throws EstadisticaInvalidaException{
 		this.nombre = nombre;
 		setCombustible(combustible);
 		setNivelEnergia(nivelEnergia);
-		this.UbicacionActual = ubicacionActual;
+		setUbicacionActual(ubicacionActual);
 	 }
 	 
 	 
@@ -40,22 +40,27 @@ public abstract class Nave implements Navegable{
 		this.nombre = nombre;
 	 }
 
-	 public void setCombustible(double combustible) throws NaveInvalidaException {
+	 public void setCombustible(double combustible) throws EstadisticaInvalidaException {
 		 if(combustible < 0 || combustible > 100) {
-			 throw new NaveInvalidaException("Combustible debe ser entre 0 y 100");
+			 throw new EstadisticaInvalidaException("Combustible debe ser entre 0 y 100");
 		 }
 		 this.combustible = combustible;
 	 }
 
-	 public void setNivelEnergia(int nivelEnergia) throws NaveInvalidaException  {
+	 public void setNivelEnergia(int nivelEnergia) throws EstadisticaInvalidaException  {
 		 if(nivelEnergia < 1 || nivelEnergia > 5) {
-			 throw new NaveInvalidaException("Nivel de energía debe ser entre 1 y 5");
+			 throw new EstadisticaInvalidaException("Nivel de energía debe ser entre 1 y 5");
 		 }
 		 this.nivelEnergia = nivelEnergia;
 	 }
 
 	 public void setUbicacionActual(Destino ubicacionActual) {
-		 UbicacionActual = ubicacionActual;
+		 if(ubicacionActual == null) {
+			 ubicacionActual = new Destino ("Base Estelar", 0);			
+			 UbicacionActual = ubicacionActual;
+		 }else{
+			 UbicacionActual = ubicacionActual;
+		 }
 	 }
 	 //FIN SETTERS
 	
@@ -67,12 +72,16 @@ public abstract class Nave implements Navegable{
 	 public abstract boolean tieneAutonomia(double distancia);
 	 
 	 @Override
-	 public void viajar(Destino destino) throws CombustibleInsuficienteException {
+	 public void viajar(Destino destino) throws CombustibleInsuficienteException, EstadisticaInvalidaException {
 		boolean tieneAutonomia = tieneAutonomia(destino.distanciaAl());
 		if(!tieneAutonomia) {
 			throw new CombustibleInsuficienteException("Combustible Insuficiente");
 		}
 		setUbicacionActual(destino); 
+		Mision mision = new Mision("A-01", destino, 0.2);
+		
+		EstadoMision resultado = mision.calculoExito(this);
+		System.out.println("Resultado de la misión: " + resultado);
 	 }
 	 
 	 
