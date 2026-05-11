@@ -3,7 +3,8 @@ public abstract class Nave implements Navegable{
 	 String nombre;
 	 double combustible;
 	 int nivelEnergia;
-	 Destino UbicacionActual;
+	 Destino ubicacionActual;
+	 protected double distanciaRecorrida = 0.0;
 	 
 	 public Nave(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual) 
 	 throws EstadisticaInvalidaException{
@@ -29,8 +30,12 @@ public abstract class Nave implements Navegable{
 	 }
 
 	 public Destino getUbicacionActual() {
-		 return UbicacionActual;
+		 return ubicacionActual;
 	 }
+	 
+	 public double getDistanciaRecorrida() { 
+		 return distanciaRecorrida; 
+	}
 	 //FIN GETTERS
 	 
 	 
@@ -55,12 +60,7 @@ public abstract class Nave implements Navegable{
 	 }
 
 	 public void setUbicacionActual(Destino ubicacionActual) {
-		 if(ubicacionActual == null) {
-			 ubicacionActual = new Destino ("Base Estelar", 0);			
-			 UbicacionActual = ubicacionActual;
-		 }else{
-			 UbicacionActual = ubicacionActual;
-		 }
+		 this.ubicacionActual = ubicacionActual;
 	 }
 	 //FIN SETTERS
 	
@@ -68,20 +68,34 @@ public abstract class Nave implements Navegable{
 	 
 	 //METODOS
 	 public abstract void mostrarReporte();
+	 protected abstract double calcularConsumo(double distancia);
+	 
+	 public void repostar() throws EstadisticaInvalidaException, FueraDeSectorException {
+	     if (this.ubicacionActual == null) {
+	         setCombustible(100); 
+	         System.out.println("El Combustible de la nave " + nombre + " restaurado al 100%.");
+	     } else {
+	         throw new FueraDeSectorException("ERROR: La nave " + nombre + " está en " + ubicacionActual.planeta() + ". No se puede repostar fuera de la Base Estelar.");
+	     }
+	 }
 
 	 public abstract boolean tieneAutonomia(double distancia);
 	 
 	 @Override
 	 public void viajar(Destino destino) throws CombustibleInsuficienteException, EstadisticaInvalidaException {
-		boolean tieneAutonomia = tieneAutonomia(destino.distanciaAl());
-		if(!tieneAutonomia) {
-			throw new CombustibleInsuficienteException("Combustible Insuficiente");
-		}
-		setUbicacionActual(destino); 
-		Mision mision = new Mision("A-01", destino, 0.2);
-		
-		EstadoMision resultado = mision.calculoExito(this);
-		System.out.println("Resultado de la misión: " + resultado);
+	     double consumo = calcularConsumo(destino.distanciaAl());
+	     
+	     if (consumo > this.combustible) {
+	         throw new CombustibleInsuficienteException("La nave " + nombre + " no tiene combustible para este viaje.");
+	     }
+	     
+	     setCombustible(this.combustible - consumo);
+	     
+	     setUbicacionActual(destino);
+	     
+	     this.distanciaRecorrida += destino.distanciaAl();
+	     
+	     System.out.println("LOG: Viaje realizado con éxito a " + destino.planeta() + ". Consumo: " + consumo);
 	 }
 	 
 	 

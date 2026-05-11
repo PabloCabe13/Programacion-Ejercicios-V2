@@ -15,25 +15,18 @@ public class Exploradora extends Nave {
 			    "- Nombre: " + n.getNombre() + 
 			    ", Combustible: " + n.getCombustible() + 
 			    ", Nivel de energía: " + n.getNivelEnergia() + 
-			    ", Ubicacion Actual: " + n.getUbicacionActual().planeta() + 
+			    ", Ubicacion Actual: " + (n.getUbicacionActual() != null ? n.getUbicacionActual().planeta() : "Base Estelar") + 
 			    ", Riesgo Ambiental -50%"
 			));
 	}
 	
-	public boolean tieneAutonomia(double distancia){
-		double consumo = (distancia * 0.5) * 0.7;
-		if(consumo > getCombustible()) {
-			return false;
-		}
-		return true;
+	@Override
+	protected double calcularConsumo(double distancia) {
+		return (distancia * 0.5) * 0.7;
 	}
-	
-	public void repostar() throws EstadisticaInvalidaException, FueraDeSectorException{
-		if(getUbicacionActual() == null) {
-			setCombustible(100);
-			System.out.println("Combustible repostado");
-		}else {
-			throw new FueraDeSectorException("La nave " + getNombre() + ", no está en la base" );
-		}
+
+	@Override
+	public boolean tieneAutonomia(double distancia) {
+		return calcularConsumo(distancia) <= getCombustible();
 	}
 }

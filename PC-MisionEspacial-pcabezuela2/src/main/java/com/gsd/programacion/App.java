@@ -22,7 +22,7 @@ public class App {
 					String [] nave = naves[i].split("-");
 					switch(nave[0]) {
 						case "exploradora":
-							Exploradora exploradora = new Exploradora();
+							//Exploradora exploradora = new Exploradora();
 					}
 				}
 			}

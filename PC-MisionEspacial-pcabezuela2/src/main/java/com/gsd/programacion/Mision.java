@@ -1,24 +1,25 @@
 package com.gsd.programacion;
 
 public record Mision(String id, Destino destino, double riesgoAmbiental) {
+	
 	public EstadoMision calculoExito(Nave nave) {
-		double probabilidadExito = 0.70;
-		EstadoMision completada = EstadoMision.COMPLETADA;
-		EstadoMision fallida = EstadoMision.FALLIDA;
+		double probabilidadExito = 0.70; 
 		
 		if(nave instanceof Exploradora){
-			probabilidadExito += 0.15;
+			probabilidadExito += 0.15; 
+			probabilidadExito -= (riesgoAmbiental / 2); 
+		} else {
+			probabilidadExito -= riesgoAmbiental;
 		}
+		
 		if(nave.getNivelEnergia() < 3) {
-			probabilidadExito -= 0.10;
-		}
-		probabilidadExito -= riesgoAmbiental;
-		
-		if(Math.random() < probabilidadExito) {
-			return completada;
-		}else {
-			return fallida;
+			probabilidadExito -= 0.10; 
 		}
 		
+		if(Math.random() <= probabilidadExito) {
+			return EstadoMision.COMPLETADA;
+		} else {
+			return EstadoMision.FALLIDA;
+		}
 	}
 }

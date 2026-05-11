@@ -29,35 +29,36 @@ public class Militar extends Nave{
 			    "- Nombre: " + n.getNombre() + 
 			    ", Combustible: " + n.getCombustible() + 
 			    ", Nivel de energía: " + n.getNivelEnergia() + 
-			    ", Ubicacion Actual: " +  n.getUbicacionActual().planeta() + 
-			    ", Capacidad de Carga: " + n.getBlindaje()
+			    ", Ubicacion Actual: " + (n.getUbicacionActual() != null ? n.getUbicacionActual().planeta() : "Base Estelar") +
+			    ", Blindaje: " + n.getBlindaje()
 			));
 	}
 	
-	public boolean tieneAutonomia(double distancia){
-		double consumo = (distancia * 0.8) * 1.5;
-		if(consumo > getCombustible()) {
-			return false;
-		}
-		return true;
+	@Override
+	protected double calcularConsumo(double distancia) {
+		return (distancia * 0.8) * 1.5;
 	}
-	
-	public void repostar() throws EstadisticaInvalidaException, FueraDeSectorException {
-		if(getUbicacionActual() == null) {
-			setCombustible(100);
-			System.out.println("Combustible repostado");
-		}else {
-			throw new FueraDeSectorException("La nave " + getNombre() + ", no está en la base" );
-		}
+
+	@Override
+	public boolean tieneAutonomia(double distancia) {
+		return calcularConsumo(distancia) <= getCombustible();
 	}
 	
 	public boolean probabilidadHostil() throws EstadisticaInvalidaException {
-		double probabilidadHostil = 0.20;
-		if(Math.random() <= probabilidadHostil) {
-			setCombustible(-10);
-			return true;
-		}
-		return false;
+	    double probabilidad = 0.20;
+	    if (Math.random() <= probabilidad) {
+	        System.out.println("¡ALERTA! Encuentro hostil detectado. Maniobras evasivas ejecutadas.");
+	        
+	        double nuevoCombustible = getCombustible() - 10;
+	        
+	        if (nuevoCombustible < 0) {
+	            nuevoCombustible = 0;
+	        }
+	        
+	        setCombustible(nuevoCombustible);
+	        return true;
+	    }
+	    return false;
 	}
 
 	@Override

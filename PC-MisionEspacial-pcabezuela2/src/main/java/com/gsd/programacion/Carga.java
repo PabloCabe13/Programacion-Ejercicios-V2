@@ -29,26 +29,22 @@ public class Carga extends Nave {
 			    "- Nombre: " + n.getNombre() + 
 			    ", Combustible: " + n.getCombustible() + 
 			    ", Nivel de energía: " + n.getNivelEnergia() + 
-			    ", Ubicacion Actual: " +  n.getUbicacionActual().planeta() + 
+			    ", Ubicacion Actual: " + (n.getUbicacionActual() != null ? n.getUbicacionActual().planeta() : "Base Estelar") +
 			    ", Capacidad de Carga: " + n.getCapacidadCarga()
 			));
 	}
-
-	public boolean tieneAutonomia(double distancia){
-		double consumo = (distancia * 1.2) * 2.5;
-		if(getCapacidadCarga() > 500) consumo *= 3;
-		if(consumo > getCombustible()) {
-			return false;
-		}
-		return true;
-	}
 	
-	public void repostar() throws EstadisticaInvalidaException, FueraDeSectorException{
-		if(getUbicacionActual() == null) {
-			setCombustible(100);
-			System.out.println("Combustible repostado");
-		}else {
-			throw new FueraDeSectorException("La nave " + getNombre() + ", no está en la base" );
-		}
+	@Override
+	protected double calcularConsumo(double distancia) {
+	    double consumo = (distancia * 1.2) * 2.5;
+	    if (this.capacidadCarga > 500) {
+	        consumo *= 3;
+	    }
+	    return consumo;
+	}
+
+	@Override
+	public boolean tieneAutonomia(double distancia) {
+	    return calcularConsumo(distancia) <= getCombustible();
 	}
 }
