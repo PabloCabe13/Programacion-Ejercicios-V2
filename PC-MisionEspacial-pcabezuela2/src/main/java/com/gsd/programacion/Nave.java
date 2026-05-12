@@ -95,7 +95,7 @@ public abstract class Nave implements Navegable{
 	     
 	     this.distanciaRecorrida += destino.distanciaAl();
 	     
-	     System.out.println("LOG: Viaje realizado con éxito a " + destino.planeta() + ". Consumo: " + consumo);
+	     System.out.println("Viaje realizado con éxito a " + destino.planeta() + ". Consumo: " + consumo);
 	 }
 	 
 	 
