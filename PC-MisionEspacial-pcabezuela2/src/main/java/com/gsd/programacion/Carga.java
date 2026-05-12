@@ -5,9 +5,9 @@ import java.util.stream.Stream;
 public class Carga extends Nave {
 	private double capacidadCarga;
 
-	public Carga(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual, double capacidadCarga)
+	public Carga(String nombre, double combustible, int nivelEnergia, double capacidadCarga)
 	throws EstadisticaInvalidaException {
-		super(nombre, combustible, nivelEnergia, ubicacionActual);
+		super(nombre, combustible, nivelEnergia);
 		setCapacidadCarga(capacidadCarga);
 	}
 	

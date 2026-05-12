@@ -5,9 +5,9 @@ import java.util.stream.Stream;
 public class Militar extends Nave{
 	private int blindaje;
 
-	public Militar(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual, int blindaje)
+	public Militar(String nombre, double combustible, int nivelEnergia, int blindaje)
 	throws EstadisticaInvalidaException {
-		super(nombre, combustible, nivelEnergia, ubicacionActual);
+		super(nombre, combustible, nivelEnergia);
 		setBlindaje(blindaje);
 	}
 
@@ -63,9 +63,9 @@ public class Militar extends Nave{
 
 	@Override
 	public void viajar(Destino destino) throws CombustibleInsuficienteException, EstadisticaInvalidaException {
-		probabilidadHostil();
-		super.viajar(destino);
+	    super.viajar(destino);
+	    if (!destino.planeta().equals("Base Estelar")) {
+	        probabilidadHostil();
+	    }
 	}
-	
-	
 }

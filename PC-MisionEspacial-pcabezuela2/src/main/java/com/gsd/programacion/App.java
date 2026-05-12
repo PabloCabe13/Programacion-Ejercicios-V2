@@ -6,64 +6,68 @@ public class App {
     public static void main(String[] args) {
     	if(args.length != 1) {
     		System.err.println("Argumentos Vacíos");
+            return; 
     	}
         try {
-        	List <Destino> planetas = new ArrayList<>();
-        	List <Nave> navesEspaciales = new ArrayList <>();
+        	List<Destino> planetas = new ArrayList<>();
+        	List<Nave> navesEspaciales = new ArrayList<>();
         	
-			for(int i = 0 ; i < args.length; i++) {
-				 String datosLimpios = args[i].replace("naves:", "").replace("destinos:", "");
-				 String [] partes = datosLimpios.split(";");	
-				 String [] naves = partes[0].split(",");
-				 String [] destinos = partes[1].split(",");
-				 
-				 System.out.println(Arrays.toString(naves));
-				 System.out.println(Arrays.toString(destinos));
-				 
-				 for (int j = 0; j < destinos.length; j++) {
-					 String [] destino = destinos[j].split("-");
-					 double distancia = Double.parseDouble(destino[1]);
-					 Destino destinoFinal = new Destino (destino[0], distancia);
-					 planetas.add(destinoFinal);
-				 }
-				 System.out.println(planetas);
-				 for (int j = 0; j < naves.length; j++) {
-					String [] nave = naves[j].split("-");
-					switch(nave[0]) {
-						case "exploradora":
-							String nombre = nave[1];
-							double combustible = Double.parseDouble(nave[2]);
-							int nivelEnergia = Integer.parseInt(nave[3]);
-							String ubicacionActual = nave[4];
-							if(ubicacionActual == "NADA") {
-								Destino baseEspacial = Destino(null, 0);
-								Exploradora exploradora = new Exploradora(nombre, combustible, nivelEnergia, baseEspacial);
-							}else {
-								for(Destino ubicacion : planetas) {
-									if(ubicacion.planeta() == ubicacionActual) {
-										Exploradora exploradora = new Exploradora(nombre, combustible, nivelEnergia, ubicacion);
-									}
-								}
-							}
-							break;
-						case "carga":
-					}
-				}
-			}
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-			
-			
-			
-			
-		/*} catch (EstadisticaInvalidaException | CombustibleInsuficienteException e) {
-			System.err.println("Error: "+ e.getMessage()); 
-		} */
-    }
+            String datosLimpios = args[0].replace("naves:", "").replace("destinos:", "");
+            String[] partes = datosLimpios.split(";");	
+            String[] naves = partes[0].split(",");
+            String[] destinos = partes[1].split(",");
+             
+            // Destinos
+            for (int j = 0; j < destinos.length; j++) {
+                String[] destino = destinos[j].split("-");
+                double distancia = Double.parseDouble(destino[1]);
+                Destino destinoFinal = new Destino(destino[0], distancia);
+                planetas.add(destinoFinal);
+            }
+            
+            // Naves
+            for (int j = 0; j < naves.length; j++) {
+                String[] nave = naves[j].split("-");
+                String tipo = nave[0];
+                String nombre = nave[1];
+                double combustible = Double.parseDouble(nave[2]);
+                int nivelEnergia = Integer.parseInt(nave[3]);
+                String atributoExtra = nave[4]; 
+                
+                switch(tipo) {
+                    case "exploradora":
+                        Exploradora exploradora = new Exploradora(nombre, combustible, nivelEnergia);
+                        navesEspaciales.add(exploradora);
+                        break;
+                        
+                    case "carga":
+                        double capacidad = Double.parseDouble(atributoExtra);
+                        Carga carga = new Carga(nombre, combustible, nivelEnergia, capacidad);
+                        navesEspaciales.add(carga);
+                        break;
+                        
+                    case "militar":
+                        int blindaje = Integer.parseInt(atributoExtra);
+                        Militar militar = new Militar(nombre, combustible, nivelEnergia, blindaje);
+                        navesEspaciales.add(militar);
+                        break;
+                    default:
+                        throw new NaveInvalidaException("Tipo de nave no reconocido: " + tipo);
+                }
+            }
+            
+            // Comprobación rápida para ver si se han guardado bien
+            System.out.println("Planetas cargados: " + planetas.size());
+            System.out.println("Naves cargadas: " + navesEspaciales.size());
+            
+            EjecutarSimulacion.ejecutarSimulacion(navesEspaciales, planetas);
 
-	private static Destino Destino(Object object, int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		} catch (EstadisticaInvalidaException  e) {
+				System.err.println("Error de validación: "+ e.getMessage()); 
+		} catch (NaveInvalidaException e) {
+		    System.err.println("Nave inválida: " + e.getMessage());
+		} catch (Exception e) {
+                System.err.println("Error procesando los datos: " + e.getMessage());
+        }
+    }
 }

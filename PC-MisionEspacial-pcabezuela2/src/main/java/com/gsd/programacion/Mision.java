@@ -12,8 +12,8 @@ public record Mision(String id, Destino destino, double riesgoAmbiental) {
 			probabilidadExito -= riesgoAmbiental;
 		}
 		
-		if(nave.getNivelEnergia() < 3) {
-			probabilidadExito -= 0.10; 
+		if(nave.getNivelEnergia() < 3 && !(nave instanceof Militar)) {
+		    probabilidadExito -= 0.10;
 		}
 		
 		if(Math.random() <= probabilidadExito) {

@@ -6,12 +6,12 @@ public abstract class Nave implements Navegable{
 	 Destino ubicacionActual;
 	 protected double distanciaRecorrida = 0.0;
 	 
-	 public Nave(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual) 
+	 public Nave(String nombre, double combustible, int nivelEnergia) 
 	 throws EstadisticaInvalidaException{
 		this.nombre = nombre;
 		setCombustible(combustible);
 		setNivelEnergia(nivelEnergia);
-		setUbicacionActual(ubicacionActual);
+		this.ubicacionActual = null;
 	 }
 	 
 	 

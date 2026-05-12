@@ -4,9 +4,9 @@ import java.util.stream.Stream;
 
 public class Exploradora extends Nave {
 
-	public Exploradora(String nombre, double combustible, int nivelEnergia, Destino ubicacionActual) 
+	public Exploradora(String nombre, double combustible, int nivelEnergia) 
 	throws EstadisticaInvalidaException{	
-		super(nombre, combustible, nivelEnergia, ubicacionActual);
+		super(nombre, combustible, nivelEnergia);
 	}
 
 	@Override
