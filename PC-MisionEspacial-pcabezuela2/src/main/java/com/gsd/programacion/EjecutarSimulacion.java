@@ -43,8 +43,7 @@ public class EjecutarSimulacion {
     		        nave.viajar(base);
     		        nave.setUbicacionActual(null);
     		        System.out.println("Regreso exitoso. La nave está lista para repostar.");
-    		        nave.repostar();
-    		    } catch (CombustibleInsuficienteException | EstadisticaInvalidaException | FueraDeSectorException e) {
+    		    } catch (CombustibleInsuficienteException | EstadisticaInvalidaException  e) {
     		        System.err.println("¡ALERTA! La nave se ha quedado sin combustible.");
     		        navesDERIVA.add(nave);
     		    }

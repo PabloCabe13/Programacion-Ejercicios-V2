@@ -24,7 +24,6 @@ public class Carga extends Nave {
 
 	@Override
 	public void mostrarReporte() {
-		
 		Stream.of(this).forEach(n -> System.out.println(
 			    "- Nombre: " + n.getNombre() + 
 			    ", Combustible: " + n.getCombustible() + 
